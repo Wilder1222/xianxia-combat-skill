@@ -1,0 +1,45 @@
+# 2026-10-06 抽帧方法调研与验证
+
+前几轮的打斗调研已经区分静帧、连续视频和音画证据，但公开样片取证依赖临时命令。这一轮补充可复用的本地抽帧工具，让失败诊断中的文件身份、时间零点、选中帧和覆盖范围可复查。它服务于样片评审，不改变仙侠编排的默认输出，也不替代本项目实际生成对照。
+
+## 外部技能的采用范围
+
+两套来源均作为研究材料读取；未安装、运行其脚本或遵循其外部执行指令。本项目工具独立编写。
+
+| 来源及固定提交 | 已读内容与优势 | 本项目采用及边界 |
+|---|---|---|
+| [bydfi-official/video-analysis-skill](https://github.com/bydfi-official/video-analysis-skill/tree/b2702695f6fdb50457c30e6483af4f4d6240afa7)；`b2702695f6fdb50457c30e6483af4f4d6240afa7` | [SKILL.md](https://github.com/bydfi-official/video-analysis-skill/blob/b2702695f6fdb50457c30e6483af4f4d6240afa7/SKILL.md)、[证据分类](https://github.com/bydfi-official/video-analysis-skill/blob/b2702695f6fdb50457c30e6483af4f4d6240afa7/references/evidence-grading.md) 与 [MIT 许可证](https://github.com/bydfi-official/video-analysis-skill/blob/b2702695f6fdb50457c30e6483af4f4d6240afa7/LICENSE)。先固定来源，再保存元数据、帧和清单，按证据类型限制结论 | 采用来源指纹、帧证据与技术规格分开记录。没有引入下载、OCR、转录、Docker 或自动环境修复；文件创建成功与实际查看分开 |
+| [kumargauraw/hermes-video-watch](https://github.com/kumargauraw/hermes-video-watch/tree/9bf78c755f6fd43330b1c838db643d7e2c7ada06)；`9bf78c755f6fd43330b1c838db643d7e2c7ada06` | [SKILL.md](https://github.com/kumargauraw/hermes-video-watch/blob/9bf78c755f6fd43330b1c838db643d7e2c7ada06/SKILL.md) 与 [MIT 许可证](https://github.com/kumargauraw/hermes-video-watch/blob/9bf78c755f6fd43330b1c838db643d7e2c7ada06/LICENSE)。强调聚焦具体时间范围、先读索引图再读单帧，范围清单限制观察结论 | 采用概览定位后缩小区间的流程。讲座字幕驱动的定位不能替代高速交锋的连续帧；未引入自动转录提供商或下载失败重试路线 |
+
+这些是审阅流程的设计依据，并非战斗生成效果的独立测量。两套技能本轮没有在相同输入上执行，因此不比较成功率或为其视觉能力评分。
+
+## 时间定位的工程依据
+
+[FFmpeg 官方文档](https://ffmpeg.org/ffmpeg.html#Advanced-options) 说明 `copyts` 保留输入起点偏移，`fps_mode passthrough` 按原时间传递帧；常量帧率模式可能复制或丢弃帧。[ffprobe 官方文档](https://ffmpeg.org/ffprobe.html#Main-options) 则说明区间寻址可能落在与请求不同的位置。因此本工具完整探测短片的视频轨，按实际整数 PTS 选择帧；提取后再核对解码器报告的 PTS 和时间基，不将请求时刻或平均帧率换算当成实际证据。
+
+区间相对于视频首帧，清单同时保留源 PTS、容器起点和所选轨道；不把不同零点的时间混写。脚本只创建采样资料，人工观察另记；连续帧可以支持局部状态分析，不能代替原速观看和审听。
+
+## 本项目实现
+
+- [抽帧脚本](../scripts/sample_video.py)：本地单文件输入、SHA-256、完整时间信息、逐帧或按帧步长选择、PNG 帧、带标签的索引图和清单；超限报错，不静默删帧。
+- [使用说明](../references/formats/video-evidence-tool.md)：只在已有样片时加载，说明时间起点、失败状态和观察范围。`.local-evidence/` 用于本机资料并由 Git 忽略。
+- [素材与迭代](../references/formats/reference-and-iteration.md)：把实际帧定位加入失败诊断，避免因粗采样漏掉接触而误判。
+- [自动测试](../tests/test_sample_video.py)：固定颜色的无损合成片具有 3 秒非零起点及不等间隔帧；同时核对实际保存像素、PTS、文件指纹和未审阅状态。另覆盖损坏输入、超量、已有目录、无效时间、缺失或异常 PTS、播放列表和中途验证失败。
+
+## 公开片段复查
+
+使用 [前轮取得的《Red Flag》公开成片](2026-10-06-contact-evidence.md) 的同一份 720p 本地封装文件；源页面为 [Higgsfield Studio《Red Flag》](https://higgsfield.ai/original-series/red-flag/full-film)。源文件 SHA-256：`fd864bc095ba7455f6a4a7737cfd523f4e2ca4dc070ff2651766ee61a24ac108`。
+
+请求视频首帧相对时间 `[84.75, 85.25)` 秒，步长 1。实际得到从 0 开始计数的第 2034–2045 帧，共 12 帧；源 PTS 为 84.771000000–85.229333333 秒，时间基 `1/90000`，视频首帧源 PTS 为 0.021 秒。与此前临时抽帧记录的位置及源文件指纹一致。工具使用 FFmpeg / ffprobe 8.1.1。
+
+已查看这组索引图：右侧人物伸臂至左侧人物身前，左侧人物俯身并抬手护面，随后出现回收变化；关键手部与身体轮廓仍有遮挡。结论仍为接点无法准确确认，不能写成成功命中或失败。未进行原速播放、音轨审听、全片评级或本项目视频生成。
+
+另以首帧相对时间 `[86.2, 86.7)` 秒复查前轮的下半身特写，得到第 2069–2080 帧，共 12 帧，源 PTS 为 86.229333333–86.687666667 秒。已查看索引图中的腿部抬起、伸出和回落变化；上半身及完整攻防关系不在构图内，仍不能认定完整接触因果。两组共保存并查看 24 帧的索引图；这属于局部静帧观察。
+
+抽帧资料保存在本机 `.local-evidence/`，未将第三方视频或抽帧加入 Git。该目录不是公开复现依赖；如需重新取得媒体，应核对实际版本和原时间信息，重新封装可能产生不同的字节指纹。
+
+## 验证范围
+
+2026-10-06 完成检查：新增 14 项抽帧测试，加上原有 14 项仓库检查测试，共 28 项全部通过；没有跳过真实 FFmpeg 抽帧测试。仓库检查通过 54 个本地引用、13 个时间轴案例、15 个片段；技能基础检查和 `git diff --check` 通过。
+
+抽帧测试验证定位与资料状态，仓库检查验证本地链接和时间轴结构；两者均不衡量攻防语义或生成画面质量。
