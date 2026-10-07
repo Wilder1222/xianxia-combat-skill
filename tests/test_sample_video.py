@@ -112,6 +112,34 @@ class ExtractionTests(unittest.TestCase):
         self.assertEqual([record["source_pts_seconds"] for record in manifest["frames"]], [3.1, 3.5])
         self.assertEqual(manifest["sampling_mode"], "frame_stride")
 
+    def test_rotation_and_non_square_pixels_preserve_encoded_grid(self):
+        from PIL import Image
+        pattern = self.folder / "orientation.png"
+        with Image.new("RGB", (64, 48), "blue") as frame:
+            frame.paste("red", (0, 0, 32, 24))
+            frame.save(pattern)
+        base = self.folder / "orientation-base.mov"
+        source = self.folder / "orientation-rotated.mov"
+        ffmpeg = shutil.which("ffmpeg")
+        common = [ffmpeg, "-hide_banner", "-loglevel", "error", "-nostdin", "-n"]
+        subprocess.run(common + ["-loop", "1", "-framerate", "2", "-i", str(pattern),
+                                 "-frames:v", "2", "-vf", "setsar=2/1", "-c:v", "png", str(base)],
+                       check=True, capture_output=True, timeout=30)
+        subprocess.run(common + ["-display_rotation:v:0", "90", "-i", str(base), "-c", "copy", str(source)],
+                       check=True, capture_output=True, timeout=30)
+        output = self.folder / "方向与像素比例"
+        manifest = sample_video(source, output, Fraction(0), Fraction(1))
+        probe = json.loads((output / "probe.json").read_text(encoding="utf-8"))
+        video = next(s for s in probe["metadata"]["streams"] if s["codec_type"] == "video")
+        self.assertEqual(video["sample_aspect_ratio"], "2:1")
+        self.assertTrue(any(abs(s.get("rotation", 0)) == 90 for s in video.get("side_data_list", [])))
+        self.assertEqual(manifest["sampled_frame_count"], 2)
+        for record in manifest["frames"]:
+            with Image.open(output / record["path"]) as frame, Image.open(pattern) as expected:
+                self.assertEqual(frame.size, (64, 48))
+                self.assertEqual(frame.convert("RGB").tobytes(), expected.tobytes())
+        self.assertFalse(any(manifest["review"].values()))
+
     def test_existing_directory_is_preserved(self):
         output = self.folder / "已有资料"
         output.mkdir()
@@ -121,6 +149,27 @@ class ExtractionTests(unittest.TestCase):
             sample_video(self.source, output, Fraction(0), Fraction(1))
         self.assertEqual(marker.read_text(encoding="utf-8"), "keep")
         self.assertEqual(list(output.iterdir()), [marker])
+
+    def test_high_depth_color_metadata_is_retained_without_review_claim(self):
+        source = self.folder / "tagged-pq.mkv"
+        subprocess.run([shutil.which("ffmpeg"), "-hide_banner", "-loglevel", "error", "-nostdin", "-n",
+                        "-f", "lavfi", "-i", "color=gray:size=64x48:rate=2:duration=1",
+                        "-vf", "format=yuv420p10le,setparams=range=limited:color_primaries=bt2020:color_trc=smpte2084:colorspace=bt2020nc",
+                        "-c:v", "ffv1", "-pix_fmt", "yuv420p10le", "-color_range", "tv",
+                        "-colorspace", "bt2020nc", "-color_primaries", "bt2020",
+                        "-color_trc", "smpte2084", str(source)],
+                       check=True, capture_output=True, timeout=30)
+        output = self.folder / "色彩元数据"
+        manifest = sample_video(source, output, Fraction(0), Fraction(1))
+        probe = json.loads((output / "probe.json").read_text(encoding="utf-8"))
+        video = next(s for s in probe["metadata"]["streams"] if s["codec_type"] == "video")
+        self.assertEqual(video["pix_fmt"], "yuv420p10le")
+        self.assertEqual(video["color_range"], "tv")
+        self.assertEqual(video["color_space"], "bt2020nc")
+        self.assertEqual(video["color_primaries"], "bt2020")
+        self.assertEqual(video["color_transfer"], "smpte2084")
+        self.assertEqual(manifest["status"], "artifacts_created")
+        self.assertFalse(any(manifest["review"].values()))
 
     def test_over_limit_fails_before_creating_partial_evidence(self):
         output = self.folder / "超限"
@@ -145,6 +194,27 @@ class ExtractionTests(unittest.TestCase):
         with self.assertRaisesRegex(EvidenceError, "需要单文件视频"):
             sample_video(source, output, Fraction(0), Fraction(1))
         self.assertFalse(output.exists())
+
+    def test_source_change_after_extraction_invalidates_existing_frames(self):
+        source = self.folder / "changed-after-extraction.mkv"
+        shutil.copyfile(self.source, source)
+        output = self.folder / "源文件变更"
+        original_verify = sample_video.__globals__["verify_extraction"]
+
+        def verify_then_change(*args):
+            original_verify(*args)
+            with source.open("ab") as stream:
+                stream.write(b"source changed after decoding")
+
+        with patch.dict(sample_video.__globals__, {"verify_extraction": verify_then_change}):
+            with self.assertRaisesRegex(EvidenceError, "源文件发生变化"):
+                sample_video(source, output, Fraction(0), Fraction(1))
+        manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["status"], "failed")
+        self.assertTrue(list((output / "frames").glob("*.png")))
+        self.assertFalse(any(manifest["review"].values()))
+        self.assertFalse((output / "report.md").exists())
+        self.assertFalse((output / "contact-sheet.jpg").exists())
 
     def test_verification_failure_marks_created_artifacts_failed(self):
         output = self.folder / "验证失败"

@@ -132,7 +132,8 @@ def sample_video(source, output, start, end, stride=1, limit=60):
         ffprobe, "-v", "error", "-protocol_whitelist", "file", "-show_entries",
         "format=start_time,duration,format_name:"
         "stream=index,codec_type,codec_name,width,height,time_base,avg_frame_rate,r_frame_rate,"
-        "start_time,duration,nb_frames,sample_aspect_ratio,display_aspect_ratio:"
+        "start_time,duration,nb_frames,sample_aspect_ratio,display_aspect_ratio,"
+        "pix_fmt,bits_per_raw_sample,color_range,color_space,color_transfer,color_primaries:"
         "stream_disposition=attached_pic:stream_side_data=rotation",
         "-of", "json", str(source)], quiet=True).stdout)
     if metadata.get("format", {}).get("format_name") in {"hls", "dash", "concat", "image2"}:
@@ -168,13 +169,14 @@ def sample_video(source, output, start, end, stride=1, limit=60):
                     "interval": "[start, end)", "stride": stride, "max_frames": limit},
         "window_frame_count": window_count, "sampled_frame_count": len(records),
         "sampling_mode": "every_frame_in_window" if stride == 1 else "frame_stride",
-        "image_transform": "No autorotation, scaling, interpolation or retiming of extracted PNGs; decoded RGB pixels.",
+        "image_transform": "No autorotation, spatial scaling, interpolation or retiming; FFmpeg converts decoded pixels to 8-bit RGB (rgb24). No explicit tone mapping or display color management.",
         "review": {"frames_visually_reviewed": False, "original_speed_playback_reviewed": False,
                    "audio_reviewed": False},
         "limitations": ["采样清单只证明抽帧范围；不自动判断接触、受力、连续性或视觉质量。",
                         "静帧不等于原速播放；未审听音轨。stride 大于 1 时可能漏掉短暂接触。",
                         "时间相对于视频首帧，另保留源 PTS；与播放器时间轴可能存在起点差异。",
-                        "PNG 保留编码画面方向及像素网格；旋转和非方形像素需结合元数据及播放器核查。"],
+                        "PNG 保留编码画面方向及像素网格；旋转和非方形像素需结合元数据及播放器核查。",
+                        "PNG 为 8 位 RGB 转换，未显式进行 HDR 色调映射或显示色彩管理；不能据此保证高光、色彩或原始位深保真。源色彩标签见 probe.json，缺失标签不推定为 SDR。"],
         "tools": {"ffmpeg": run([ffmpeg, "-version"]).stdout.splitlines()[0],
                   "ffprobe": run([ffprobe, "-version"]).stdout.splitlines()[0], "Pillow": pillow_version},
         "frames": records,

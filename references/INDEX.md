@@ -13,7 +13,7 @@
 | [视频提示词文法](formats/video-prompt-grammar.md) | 时长、景别与运镜、声音、提示词压缩和跨段接续 |
 | [仙侠用词](industries/xianxia-vocabulary.md) | 为已经确定的动作补充术法形态、材质和反馈措辞 |
 | [平台与生成执行](formats/platforms-markets.md) | 用户要求实际制作视频，或需要核对指定平台及接口 |
-| [素材与迭代](formats/reference-and-iteration.md) | 素材分工、动作改编、身份归属、首尾帧冲突、样片观察与失败修正 |
+| [素材与迭代](formats/reference-and-iteration.md) | 素材分工、分镜拼图、动作改编、身份归属、首尾帧冲突、样片观察与失败修正 |
 
 ## 维护与验证
 

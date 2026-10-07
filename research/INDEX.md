@@ -2,8 +2,38 @@
 
 维护或审阅时按问题追溯来源、采用理由和验证边界。日常创作从 [技能主体](../SKILL.md) 和 [参考导航](../references/INDEX.md) 进入，无需逐篇加载调研记录。历史记录中的验证数量只代表记录当时的状态。
 
+## 常见来源去重入口
+
+下表覆盖近期重复命中的来源，并非完整候选目录或质量排名。短提交号用于定位，记录内保留完整提交链接和读取范围；它们是已读快照，不表示远端最新版本。再次命中时先比较仓库、文件与版本：同版同文件优先复用记录，读未覆盖段落时补充范围；版本变化后再检查相关差异。同一仓库的多篇文件、同一文件的多次阅读和同一样片的重复抽帧，都不自动构成独立验证。
+
+仓库提交变化不等于目标技能更新。可先查看相关路径的差异或文件 blob、参考目录 tree；内容相同就保留原方法结论。对象相同只证明版本内容一致，不证明外部链接仍可用、模型接口未变或视频效果成立。
+
+| 来源与已读版本 | 已覆盖内容与记录入口 | 后续关注点 |
+|---|---|---|
+| `irenerachel/fight-prompt-director` · `fee4387b4c53` | [入口与诊断](2026-10-06-combat-skills.md)、[目标策略复核](2026-10-07-objectives-and-tactics-audit.md) | 现有目标与因果方法已采用；同版固定配额与三方案要求无需反复评估 |
+| `snowfrost/skill-movie` · `69f6db670ecf` | [起始范围](2026-10-06-combat-skills.md)、[接触关系](2026-10-06-sustained-contact.md)、[地形](2026-10-06-terrain-and-traversal.md)、[双人抓握](2026-10-07-paired-body-control.md)；各文件有全文与定向阅读之别 | 先定位未读文件或新增方法；不能把大量参考文件视为多套独立实测，子目录许可仍按原记录处理 |
+| `nolanx-ai/nolanx.ai` · `595d86364377` | [动作镜头](2026-10-07-occlusion-and-return.md)、[模块化提示](2026-10-07-prompt-compression-scope.md)、[命中模板](2026-10-07-hit-marking-style.md)、[灯光](2026-10-07-magic-lighting.md) | 四份方法分别采用或舍弃；尚无本项目生成对照，不将模板参数当模型能力 |
+| `landon2022/minimax-h3-video-prompt` · `32c0fb6f81c9` | [战斗参考全文与诱招判断](2026-10-06-feints-and-perception.md) | 未确认目标文件许可；佯攻可失败，不再导入固定交换数与飞行落地限制 |
+| `dgroch/higgsfield-prompt-engineer` · `fdc98872a7cf` | [战斗入口及评测边界](2026-10-06-feints-and-perception.md)、[校验与评估](2026-10-06-validation-scope-and-evaluation.md) | 区分生成成片评审、文本自评和静态量表；发现新结果时核对原始输入与媒体 |
+| `zlbigger/story-video-director` · `ecacc4fd125c` | [表演参考的目标、阻碍、策略与诊断片段](2026-10-07-objectives-and-tactics-audit.md) | 仅定向阅读；不套用固定节拍数量、自评分或每场必须换策略 |
+| `kangarooking/director-skills` · `a827cccc4460` → `459debadf91f8` | [动作入口、题材与镜头参考及版本复核](2026-10-06-topic-routing.md) | 仓库新增三个提交，但打斗入口与参考目录内容未变；沿用原取舍，避免整包更新被误认作打斗方法增量 |
+| `scenario-labs/skills` · `91caa011e137` | [分镜入口及三份参考全文](2026-10-07-continuity-versus-cuts.md) | 已覆盖串联生成、分镜绘制与视频提示；作者样片经验尚未独立复核，固定格式、配乐与摄影限制不作通用规则 |
+| `ouyangevan/codex-short-drama-pipeline-skill` · `a669c98515f2` | [入口与九份战斗核心模块全文](2026-10-07-combat-pipeline-density.md) | 已评估九份模块，并读法相示例、定向检查执行提示字段；完整 schema、其余实例及媒体仍未核查 |
+| `Emily2040/seedance-2.0` · `4668457e560e` | [动作与压缩](2026-10-06-concurrent-action-and-compression.md)、[接续计划与观察](2026-10-06-continuation-and-observed-state.md)、[特效终止](2026-10-06-emission-and-control.md) | 各记录区分全文与定向阅读；其派生包与引用段落不作为独立验证 |
+| `OSideMedia/higgsfield-ai-prompt-skill` · `70754977d188` | [分镜密度片段](2026-10-06-concurrent-action-and-compression.md)、[Seedance 接续与素材片段](2026-10-06-continuation-and-observed-state.md) | 未通读整套技能；接续部分标注导入 Emily 方法，平台参数仍需一手核实 |
+
+本项目仍缺少使用新增规则生成的对应样片对照。后续评价“效果更好”需要任务约束一致的真实输出与明确观看范围；继续增加文字案例或来源条数不能补足这项证据。具体生成执行仍以用户请求和可用工具为准。
+
+## 按问题查阅记录
+
 | 记录 | 查阅目的 |
 |---|---|
+| [错误动作控制与修复](2026-10-07-control-input-repair.md) | 纠正源动作时明确允许变化，避免同时要求错误控制完全保持 |
+| [人体运动与接触验收](2026-10-07-human-motion-evaluation.md) | 区分单人结构、运动稳定与双人接点，避免用平滑度或姿态置信度代替交互核验 |
+| [战斗流水线与密度取舍](2026-10-07-combat-pipeline-density.md) | 对照具体动作语法与固定密度质检，避免把镜长、姿态数和自评分配额当作质量证据 |
+| [抓腕压缩前后待执行对照](2026-10-07-grab-compression-comparison.md) | 固定真实历史基线、当前输入快照与共同验收条件；尚无生成结果 |
+| [连续动作与剪辑形式](2026-10-07-continuity-versus-cuts.md) | 区分实际切镜、连续变景别与后期切段，保留指定硬切及一镜到底要求 |
+| [分镜拼图与生成流程](2026-10-07-storyboard-grid.md) | 区分格序、重复身份与分屏，核对拼图职责，不把多格参考当作逐镜执行保证 |
 | [调研记录](2026-10-06-combat-skills.md) | 维护时追溯来源、采用与舍弃的理由，不作为每次创作必读材料 |
 | [接触与样片证据续研](2026-10-06-contact-evidence.md) | 社区经验的采用范围、公开成片抽帧观察与接续修正的依据 |
 | [御剑与多人交锋调研](2026-10-06-flight-and-multi-combat.md) | 移动方式、实体兵器往返、承载切换与多人持续施压的采用依据 |
@@ -29,3 +59,8 @@
 | [跨段计划与实际结果调研](2026-10-06-continuation-and-observed-state.md) | 区分计划、观察和接续取舍，保留完整文字交付，核对已完成与未完事件 |
 | [环境反馈与通行条件调研](2026-10-06-terrain-and-traversal.md) | 区分表面反馈与实际通路变化，核对地物阶段、携物过口，以及公开水幕画面的观察边界 |
 | [双人抓握与释放顺序调研](2026-10-07-paired-body-control.md) | 局部控制、共同承重、逐个接点释放，以及人体交互论文与视频提示词之间的证据边界 |
+| [遮挡与重新入画调研](2026-10-07-occlusion-and-return.md) | 区分可见性与场内状态，保持出画期间的运动与持物，并保留隐藏过程的观察不确定性 |
+| [提示词压缩的作用范围](2026-10-07-prompt-compression-scope.md) | 同段设定去重、独立片段自足，以及抓腕案例中重复反向说明的精简 |
+| [命中标记与风格模板](2026-10-07-hit-marking-style.md) | 审阅固定停顿、震屏与粒子配方，补充轻接触反例并保留指定重击风格 |
+| [术法照明与连续性](2026-10-07-magic-lighting.md) | 区分受照色与身份色、瞬时爆光与持续光源，并保持机位变化下的场景光源关系 |
+| [目标与策略方法复核](2026-10-07-objectives-and-tactics-audit.md) | 复核既有来源，区分目标与方法，保留有效稳守与主动回护，不强制策略反转 |
