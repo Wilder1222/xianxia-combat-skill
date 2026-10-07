@@ -4,6 +4,8 @@
 
 需要横向选择方法时，先读[已读打斗方法的选择与验证优先级](2026-10-07-method-selection.md)。该表汇总已有证据与待验证问题，不作为生成效果排名。
 
+用户提供版本的变更去向见[修改版 Skill 融合记录](2026-10-07-user-skill-merge.md)，其中区分新增方法、已覆盖内容和与现行约束冲突的旧模板。
+
 ## 常见来源去重入口
 
 下表覆盖近期重复命中的来源，并非完整候选目录或质量排名。短提交号用于定位，记录内保留完整提交链接和读取范围；它们是已读快照，不表示远端最新版本。再次命中时先比较仓库、文件与版本：同版同文件优先复用记录，读未覆盖段落时补充范围；版本变化后再检查相关差异。同一仓库的多篇文件、同一文件的多次阅读和同一样片的重复抽帧，都不自动构成独立验证。
@@ -12,6 +14,13 @@
 
 | 来源与已读版本 | 已覆盖内容与记录入口 | 后续关注点 |
 |---|---|---|
+| `SkillDB / storyboard-fight-choreography` · 2026-10-07 页面 | [分镜模板的适用边界](2026-10-07-method-selection.md#免费重试分镜模板的适用边界) | 已读正文、规格与反模式；未取得固定版本、独立许可或生成样片，不导入停顿、环境互动配额与击倒结尾 |
+| `maciejdzierzek/kling-ai-prompt-generator` · `248b9a275fed` | [Kling 社区 Skill 排错取舍](2026-10-07-combat-pipeline-density.md#kling-专用社区-skill-的排错取舍) | 定向读工作流、语言、提示及排错段落；不采用卡在 99% 等于缺少动作终点的因果断言，未验证其参数与效果排名 |
+| `JOKER141/BUNNY_H3_Conditioning_Bridge` · `1c46814a7034` | [工作流内嵌兵器模板](2026-10-07-combat-pipeline-density.md#h3-工作流内嵌兵器模板的选择性核查) | 1038 行文本全文已读，一对四合成对比抽看 11 张静帧；两路进度不同、完整条件未齐，不能归因到模板或组件；未安装，同版模板无需重读 |
+| `LearnPrompt/awesome-seedance` · `ea45dc0cc812` | [连续攻防模板及采用边界](2026-10-07-awesome-seedance-retests.md#2026-10-07awesome-seedance-连续攻防模板筛选) | 已核对四例复测字段；巷战复测 23 张、赛博复测 30 张及来源关联视频 27 张静帧已看，风格与片尾差异可见；原速和完整输入未验收，与 GoodCase 属同一策展体系 |
+| `CY-CHENYUE/martial-arts-director-cy` · `65c7c1dd35fc` | [兵器词典与适配边界](2026-10-06-motion-reference-adaptation.md#2026-10-07-兵器词典与实际动作适配)、[沙漠案例图及视频抽样](2026-10-07-cy-desert-media.md) | 已看分镜图、30 张全片抽样及接架窗口的 24 张连续帧；双持局部可见，接架处连接仍受重叠遮挡限制，未验收原速或声音 |
+| `keithwalsky-ship-it/UGC-ai-prompt-skill` · `58c0542568cd` | [Cinema 打斗章节与上游内容比较](#ugc-ai-prompt-skill-的实测声明与采用边界) | 对应打斗整节与 OSideMedia 固定版本完全相同，不作为独立实测来源；整份文件存在其他差异 |
+| `pixelab-ch/higgsfield-skills` · `2f6aa1090ffe` | [打斗入口、多人章节及上游归属](2026-10-06-concurrent-action-and-compression.md#同源候选pixelab-ch-的多人编排模块) | 改编自已读 beshuaxian 项目；未取得运行结果，不作为独立效果验证或默认模型路由 |
 | `CyberJ0605/cinematic-video-prompt-engineer-skill` · `53bdce34fd41` | [连续性与竖屏适配全文、近身长镜头及测试定向片段](2026-10-07-cinematic-fight-and-reference-coverage.md) | 核查换机位后的参考覆盖及裁切范围；四个演示视频未看，不采用固定动作配额与默认换机位 |
 | `Yunwuxin-666/Wuxin-Film-Skill` · `49146aea4dc8` | [四份动作/特效文件及五份评估/参考职责文件全文](2026-10-07-wuxin-action-and-coverage.md) | 区分硬切与连续运镜、绳带连接与牵引、材质与完成度参考；评估材料为方法和输入，未取得对应运行结果 |
 | `wuwangzhang1216/DirectorSKILL` · `c65ae0d144570` | [连续性与易手](2026-10-06-weapon-transfer-and-continuity.md)、[镜头几何与走位取舍](2026-10-06-spatial-direction-and-camera.md) | 各文件为定向阅读，走位全文返回曾截断；不采用通用单人移动限制或未经验证的生成阈值 |
@@ -29,11 +38,21 @@
 | `scenario-labs/skills` · `91caa011e137` | [分镜入口及三份参考全文](2026-10-07-continuity-versus-cuts.md) | 已覆盖串联生成、分镜绘制与视频提示；作者样片经验尚未独立复核，固定格式、配乐与摄影限制不作通用规则 |
 | `ouyangevan/codex-short-drama-pipeline-skill` · `a669c98515f2` | [入口与九份战斗核心模块全文](2026-10-07-combat-pipeline-density.md) | 已评估九份模块，并读法相示例、定向检查执行提示字段；完整 schema、其余实例及媒体仍未核查 |
 | `Emily2040/seedance-2.0` · `4668457e560e` | [动作与压缩](2026-10-06-concurrent-action-and-compression.md)、[接续计划与观察](2026-10-06-continuation-and-observed-state.md)、[特效终止](2026-10-06-emission-and-control.md) | 各记录区分全文与定向阅读；其派生包与引用段落不作为独立验证 |
-| `OSideMedia/higgsfield-ai-prompt-skill` · `70754977d188` | [分镜密度片段](2026-10-06-concurrent-action-and-compression.md)、[Seedance 接续与素材片段](2026-10-06-continuation-and-observed-state.md) | 未通读整套技能；接续部分标注导入 Emily 方法，平台参数仍需一手核实 |
+| `OSideMedia/higgsfield-ai-prompt-skill` · `70754977d188` | [分镜密度及动作与表演拆分片段](2026-10-06-concurrent-action-and-compression.md)、[Seedance 接续与素材片段](2026-10-06-continuation-and-observed-state.md) | 未通读整套技能；保留情绪导致的动作因果，不默认拆镜；平台参数仍需一手核实 |
 
-本项目仍缺少使用新增规则生成的对应样片对照。后续评价“效果更好”需要任务约束一致的真实输出与明确观看范围；继续增加文字案例或来源条数不能补足这项证据。具体生成执行仍以用户请求和可用工具为准。
+本项目已取得两条 RunningHub 实际样片：首条接点解除及用户反馈的动作节奏未通过，见[首条记录](2026-10-07-method-selection.md#runninghub-国际站预算内实际出片与局部审阅)；三轮连续攻防候选经全片 193 帧静帧概览及部分大图检查，发现接招转换、额外兵器、攻防对应、末态分离及取景失败，见[第二条记录](2026-10-07-method-selection.md#三轮攻防候选的第二条实际样片)。两条共花费 1.84 美元，原速节奏及声音尚未完成验收。模型和请求都已改变，不能当作同条件提升证据。继续增加文字案例或来源条数不能补足媒体证据；生成执行仍以用户请求、预算和可用工具为准。
 
 ## 候选来源核验异常
+
+### UGC-ai-prompt-skill 的实测声明与采用边界
+
+2026-10-07 检索到 [keithwalsky-ship-it/UGC-ai-prompt-skill](https://github.com/keithwalsky-ship-it/UGC-ai-prompt-skill/tree/58c0542568cd2aa6636c0c7b149ab073858c0dc6)，远端 HEAD 为 `58c0542568cd2aa6636c0c7b149ab073858c0dc6`。核查完整递归树（未截断），未发现 MP4、WebM、MOV 或 GIF；这不排除仓库外另有视频。读取根 MIT 许可，版权标为 O-Side Media；README 的徽章及安装命令也指向 OSideMedia 上游，因此不能直接视为独立测试来源，尚未做全部文件的同源差异比较。
+
+定向读取 [Cinema Skill](https://github.com/keithwalsky-ship-it/UGC-ai-prompt-skill/blob/58c0542568cd2aa6636c0c7b149ab073858c0dc6/skills/higgsfield-cinema/SKILL.md) 第 1405–1484 行。该段自称经过实测，但没有附逐次输入、模型设置或配对媒体；建议用笼统打斗、接触前后剪辑和容易隐藏漂移的环境规避精确动作。不能据此把其对拳脚、道具或擒拿的失败断言扩大到所有模型，也不采用这些方法替换当前明确的连续剑斗接触与回应。未通读整个入口、安装或运行外部工作流；本次不新增创作规则，保留来源筛选结果以防重复吸收。
+
+随后实取两份固定版本的同路径文件作内容比较，OSideMedia 远端 HEAD 仍为 `70754977d1884794963ac0a748eaaa85b6e9c82a`。上游文件为 108850 字节、SHA-256 `f3045ba3ed58dd4540cc9701579d7676a9a2291fd7d80f8112b2c6a1a72ed628`；UGC 文件为 114822 字节、SHA-256 `d81eb17534437a9d28e85884a4babae3fb3a3bafded0543a02c4ebffc2369876`。两份文件整体不同，但从 `## Fight Scene & Action Design Rules (Tested)` 到下一处二级标题前的完整章节均为 4655 字符，UTF-8 SHA-256 同为 `7964ed7aabe08359414142911bda2bd066c01538963c1af61a9a3a69a8cf28a1`，逐字符相等。因此该章节只记为一份方法与作者经验声明，不作为两个来源相互佐证。文件比较不代表其余全文已人工阅读，也未证明整个仓库相同。
+
+### MuAPI 聚合页与原仓库定位
 
 2026-10-07 检索到 [muapi-ai-fight-scene 聚合页](https://claudeskills.info/skills/samuraigpt/generative-media-skills/muapi-ai-fight-scene/)，页面展示分镜到视频的技能正文，但所指 `samuraigpt/generative-media-skills` 经 GitHub API 解析为 `Anil-matcha/open-dots`。Git 实取 HEAD 为 `3d8de1cd6657c6d70583f34b89c2dc034512c1ea`；该提交的完整递归树返回 `truncated: false`，不含所指 `library/motion/ai-fight-scene` 或任何 `SKILL.md`。另定向读取 README 开头，内容为代理工作区项目，与聚合页的打斗技能描述不同。可复核 [当前仓库解析](https://api.github.com/repos/samuraigpt/generative-media-skills) 与 [固定提交文件树](https://github.com/Anil-matcha/open-dots/tree/3d8de1cd6657c6d70583f34b89c2dc034512c1ea)。未查全部历史，不断言技能从未存在，也不将聚合页的许可、星数或模型效果归给当前仓库。
 
