@@ -5,6 +5,8 @@ from pathlib import Path
 import os
 import re
 import sys
+import unicodedata
+from urllib.parse import unquote
 
 
 LOCAL_ONLY_DIRECTORIES = {".git", ".local-evidence", "__pycache__"}
@@ -71,24 +73,74 @@ def validate_timelines(content):
     return errors, cases_checked, segments_checked
 
 
+def without_fenced_code(content):
+    """Exclude backtick/tilde fenced examples from navigation checks."""
+    lines = []
+    fence = None
+    for line in content.splitlines():
+        marker = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line)
+        if fence:
+            if (marker and marker[1][0] == fence[0]
+                    and len(marker[1]) >= len(fence) and not marker[2].strip()):
+                fence = None
+            lines.append("")
+        elif marker:
+            fence = marker[1]
+            lines.append("")
+        else:
+            lines.append(line)
+    return "\n".join(lines)
+
+
+def heading_anchors(content):
+    """Repository ATX headings, not a general-purpose Markdown renderer."""
+    anchors = set()
+    for line in without_fenced_code(content).splitlines():
+        match = re.match(r"^ {0,3}#{1,6}\s+(.+?)\s*$", line)
+        if not match:
+            continue
+        title = re.sub(r"\s+#+$", "", match[1])
+        title = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", title)
+        title = re.sub(r"<[^>]+>", "", title)
+        # Strip common inline formatting; preserve underscores inside words.
+        title = re.sub(r"(?<!\w)_([^_]+)_(?!\w)", r"\1", title)
+        title = title.replace("`", "").replace("*", "").replace("~", "")
+        base = "".join(c for c in title.strip().lower()
+                       if c in " -_" or unicodedata.category(c)[0] in "LNM")
+        base = base.replace(" ", "-")
+        anchor = base
+        suffix = 0
+        while anchor in anchors:
+            suffix += 1
+            anchor = f"{base}-{suffix}"
+        anchors.add(anchor)
+    return anchors
+
+
 def validate_links(root):
     root = Path(root).resolve()
     errors = []
     checked = 0
+    anchors = {}
     for file in root.rglob("*.md"):
         if in_local_only_directory(file.relative_to(root)):
             continue
         content = file.read_text(encoding="utf-8")
-        for target in re.findall(r"\[[^\]\n]+\]\(([^)\n]+)\)", content):
-            if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", target) or target.startswith("#"):
+        for target in re.findall(r"\[[^\]\n]+\]\(([^)\n]+)\)", without_fenced_code(content)):
+            if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", target):
                 continue
-            path = target.split("#", 1)[0]
+            path, separator, fragment = target.partition("#")
             checked += 1
-            resolved = (file.parent / path).resolve()
+            resolved = (file.parent / unquote(path)).resolve() if path else file
             if not resolved.is_relative_to(root) or not resolved.is_file():
                 errors.append(f"{file.relative_to(root)}：本地引用不可用 {target}")
             elif in_local_only_directory(resolved.relative_to(root)):
                 errors.append(f"{file.relative_to(root)}：本地引用指向不发布的目录 {target}")
+            elif separator and fragment and resolved.suffix.lower() == ".md":
+                if resolved not in anchors:
+                    anchors[resolved] = heading_anchors(resolved.read_text(encoding="utf-8"))
+                if unquote(fragment) not in anchors[resolved]:
+                    errors.append(f"{file.relative_to(root)}：本地章节不存在 {target}")
     return errors, checked
 
 

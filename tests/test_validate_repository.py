@@ -111,8 +111,50 @@ class LinkTests(unittest.TestCase):
         self.assertTrue(validate_links(self.root)[0])
 
     def test_external_links_are_not_claimed_verified(self):
-        self.write("[外部](https://example.invalid/a) [页内](#段落)")
+        self.write("[外部](https://example.invalid/a#missing)")
         self.assertEqual(validate_links(self.root), ([], 0))
+
+    def test_same_document_heading_and_missing_heading(self):
+        self.write("## 段落\n[页内](#段落) [错名](#已改名)")
+        errors, checked = validate_links(self.root)
+        self.assertEqual(checked, 2)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("#已改名", errors[0])
+
+    def test_cross_document_heading_rename_is_detected(self):
+        target = self.root / "reference.md"
+        target.write_text("## 动作接续\n", encoding="utf-8")
+        self.write("[接续](reference.md#动作接续)")
+        self.assertEqual(validate_links(self.root), ([], 1))
+        target.write_text("## 已更名\n", encoding="utf-8")
+        self.assertIn("本地章节不存在", validate_links(self.root)[0][0])
+
+    def test_encoded_heading_and_path(self):
+        (self.root / "two words.md").write_text("## 中文\n", encoding="utf-8")
+        self.write("[跳转](two%20words.md#%E4%B8%AD%E6%96%87)")
+        self.assertEqual(validate_links(self.root), ([], 1))
+
+    def test_duplicate_headings_and_numbered_collision(self):
+        self.write("## Same\n## Same\n## Same-1\n"
+                   "[一](#same) [二](#same-1) [三](#same-1-1) [缺](#same-2)")
+        errors, checked = validate_links(self.root)
+        self.assertEqual(checked, 4)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("#same-2", errors[0])
+
+    def test_fenced_examples_are_not_headings_or_links(self):
+        for fence in ("```", "~~~~"):
+            with self.subTest(fence=fence):
+                self.write(f"{fence}md\n## 隐藏\n[示范](missing.md)\n{fence}\n"
+                           "## 可见\n[正确](#可见) [错误](#隐藏)")
+                errors, checked = validate_links(self.root)
+                self.assertEqual(checked, 2)
+                self.assertEqual(len(errors), 1)
+                self.assertIn("#隐藏", errors[0])
+
+    def test_formatted_heading_punctuation_and_closing_hashes(self):
+        self.write("## **动作**、`Force` 与 _回应_！ ##\n[跳转](#动作force-与-回应)")
+        self.assertEqual(validate_links(self.root), ([], 1))
 
     def test_local_analysis_notes_do_not_change_repository_result(self):
         reference = self.root / "references" / "public.md"

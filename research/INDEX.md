@@ -2,6 +2,8 @@
 
 维护或审阅时按问题追溯来源、采用理由和验证边界。日常创作从 [技能主体](../SKILL.md) 和 [参考导航](../references/INDEX.md) 进入，无需逐篇加载调研记录。历史记录中的验证数量只代表记录当时的状态。
 
+需要横向选择方法时，先读[已读打斗方法的选择与验证优先级](2026-10-07-method-selection.md)。该表汇总已有证据与待验证问题，不作为生成效果排名。
+
 ## 常见来源去重入口
 
 下表覆盖近期重复命中的来源，并非完整候选目录或质量排名。短提交号用于定位，记录内保留完整提交链接和读取范围；它们是已读快照，不表示远端最新版本。再次命中时先比较仓库、文件与版本：同版同文件优先复用记录，读未覆盖段落时补充范围；版本变化后再检查相关差异。同一仓库的多篇文件、同一文件的多次阅读和同一样片的重复抽帧，都不自动构成独立验证。
@@ -10,8 +12,11 @@
 
 | 来源与已读版本 | 已覆盖内容与记录入口 | 后续关注点 |
 |---|---|---|
+| `CyberJ0605/cinematic-video-prompt-engineer-skill` · `53bdce34fd41` | [连续性与竖屏适配全文、近身长镜头及测试定向片段](2026-10-07-cinematic-fight-and-reference-coverage.md) | 核查换机位后的参考覆盖及裁切范围；四个演示视频未看，不采用固定动作配额与默认换机位 |
+| `Yunwuxin-666/Wuxin-Film-Skill` · `49146aea4dc8` | [四份动作/特效文件及五份评估/参考职责文件全文](2026-10-07-wuxin-action-and-coverage.md) | 区分硬切与连续运镜、绳带连接与牵引、材质与完成度参考；评估材料为方法和输入，未取得对应运行结果 |
+| `wuwangzhang1216/DirectorSKILL` · `c65ae0d144570` | [连续性与易手](2026-10-06-weapon-transfer-and-continuity.md)、[镜头几何与走位取舍](2026-10-06-spatial-direction-and-camera.md) | 各文件为定向阅读，走位全文返回曾截断；不采用通用单人移动限制或未经验证的生成阈值 |
 | `AI-KSK/ltx-2-3-prompt-director` · `c9487b13178c` | [QA 与文本检查器的两个实执行反例](2026-10-06-validation-scope-and-evaluation.md) | 已复现阶段镜头误报与不可达接触漏检；未评估生成质量，不将 CLEAN 当作攻防通过 |
-| `62656456/ai-film-skills` · `11ad3a8fa5fe` | [打戏模块、拉片案例、三版分镜报告及两张实际图像核验](2026-10-06-validation-scope-and-evaluation.md) | 两张分镜图已对照输入；拉片原作品未取得，整批统计仍为作者报告，未做视频或版本优劣验证 |
+| `62656456/ai-film-skills` · `11ad3a8fa5fe` | [打戏模块、拉片案例、三版分镜报告及三张实际图像核验](2026-10-06-validation-scope-and-evaluation.md) | 三张分镜图已对照输入；镜内时序示意与人数分别核查，整批统计仍为作者报告，未做视频或版本优劣验证 |
 | `hypit-ai/hypit` · `7f730abf72fa` | [视频导演与参考关系](2026-10-07-reference-request-mapping.md) | 本轮只读两份方法页和根许可证，不将其包语法与模型选择当作通用接口 |
 | `jiayushi1-ux/script-to-shot-engine` · `e139226e935e` | [入口、动作与接续规则、素材协议、渲染器、徒手及一对多示例](2026-10-07-subjective-view-and-contact.md) | 采用视点与动作相容及群体人数检查；不采用固定镜头配额或焦距到景别的固定映射，尚无对应媒体验证 |
 | `irenerachel/fight-prompt-director` · `fee4387b4c53` | [入口与诊断](2026-10-06-combat-skills.md)、[目标策略复核](2026-10-07-objectives-and-tactics-audit.md) | 现有目标与因果方法已采用；同版固定配额与三方案要求无需反复评估 |
@@ -27,6 +32,12 @@
 | `OSideMedia/higgsfield-ai-prompt-skill` · `70754977d188` | [分镜密度片段](2026-10-06-concurrent-action-and-compression.md)、[Seedance 接续与素材片段](2026-10-06-continuation-and-observed-state.md) | 未通读整套技能；接续部分标注导入 Emily 方法，平台参数仍需一手核实 |
 
 本项目仍缺少使用新增规则生成的对应样片对照。后续评价“效果更好”需要任务约束一致的真实输出与明确观看范围；继续增加文字案例或来源条数不能补足这项证据。具体生成执行仍以用户请求和可用工具为准。
+
+## 候选来源核验异常
+
+2026-10-07 检索到 [muapi-ai-fight-scene 聚合页](https://claudeskills.info/skills/samuraigpt/generative-media-skills/muapi-ai-fight-scene/)，页面展示分镜到视频的技能正文，但所指 `samuraigpt/generative-media-skills` 经 GitHub API 解析为 `Anil-matcha/open-dots`。Git 实取 HEAD 为 `3d8de1cd6657c6d70583f34b89c2dc034512c1ea`；该提交的完整递归树返回 `truncated: false`，不含所指 `library/motion/ai-fight-scene` 或任何 `SKILL.md`。另定向读取 README 开头，内容为代理工作区项目，与聚合页的打斗技能描述不同。可复核 [当前仓库解析](https://api.github.com/repos/samuraigpt/generative-media-skills) 与 [固定提交文件树](https://github.com/Anil-matcha/open-dots/tree/3d8de1cd6657c6d70583f34b89c2dc034512c1ea)。未查全部历史，不断言技能从未存在，也不将聚合页的许可、星数或模型效果归给当前仓库。
+
+因此本次只保留为来源待定位的线索，未安装或采用其接口参数。聚合页关于固定分镜格数保证实际镜头数、特定模型优于其他模型的说法未获一手证据支持；既有分镜顺序与实际剪辑验收规则足以处理，不额外添加运行规则。若后续找到原始技能的固定提交及对应成片，再恢复方法与效果审阅。同轮 Pika Stagefight 的远端 HEAD 仍为已读 `f27b3ba28a7be7c5f3a74d8fdd54b770f5d8157b`，没有重复通读或计作新来源。
 
 ## 按问题查阅记录
 
