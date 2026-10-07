@@ -63,3 +63,71 @@
 最终复查：技能格式检查通过；137 个本地引用、24 个时间轴案例、26 个片段通过；引用与时间轴的 18 项单元测试通过。`git diff --check` 未发现格式错误，28 个未跟踪文本文件的尾随空白检查通过。抽帧测试本轮未重跑，不能将上述 18 项记作媒体验证。
 
 本轮结果是检查器可靠性及评估方法改进，不是新的视频质量证据。
+
+
+## 2026-10-07：文字合规与实际分镜图偏差
+
+新来源 [Open Film Skills](https://github.com/62656456/ai-film-skills/tree/11ad3a8fa5fe18b00087cdfa08300bc7689dcb9b)，Git 固定提交 `11ad3a8fa5fe18b00087cdfa08300bc7689dcb9b`。全文读 `skills/ai-storyboard-director/references/fight-design.md`、七题材 `report.md` 及 `THIRD_PARTY_NOTICES.md`；定向读 `storyboards.json` 的近身打戏共同故事与 B 版、`image-prompts.md` 的对应 B 版提交段落和 `image-manifest.json` 对应条目。入口及其余模块未通读，未执行外部技能。仓库展示 Apache-2.0 标记，本轮未做完整许可审计，未复制来源正文、角色模板或媒体进本项目。
+
+来源打戏模块区分攻防条件与摄影选择，并保留施力方反作用及多人场内行动；多数已被本项目覆盖，不重复扩写。报告保留失败观察、文字检查与图像检查的差别，值得继续核验，但报告中的整批统计仍属作者陈述。
+
+本次实看[近身打戏 B 版原图](https://github.com/62656456/ai-film-skills/blob/11ad3a8fa5fe18b00087cdfa08300bc7689dcb9b/docs/research/skill-overhaul/seven-genres/images/04-fight-b.png)：941×1672 像素，SHA-256 `fa47c5be9eb04384b4cc4a01c44ea261a861c00f2e7097e36b3561144761985e`，与来源清单一致。查看整板并重点对照第 4—6 格；第 6 格人物朝向画右，画左扶绳的手臂可追溯到其自身右肩，另一臂垂在身体另一侧。原稿与实际生图提示的第 4、5 镜明确要求左手连续支撑，故此处存在左右职责偏差，不能仅凭格下说明文字判断图像正确。其余格与其他版本未作完整独立审查，不把作者整批结论当作本次全部复核结果。
+
+这支持既有的“按实际输入与输出定位问题”规则，不能将图像偏差直接诊断为正文漏写，也不能证明多加一次左手要求就会修好。未看视频或听音轨，静帧无法验证转身、绊腿、桥面回摆或 30 秒运动节奏。来源另称三版本图像共用外观参考、不是严格盲测，本轮不据问题数排名。
+
+人工观察保存在被忽略的 `.local-evidence/open-film-storyboard-20261007/observation.json`。局部工作树提取失败后改用固定提交的 `git show` 取得对象并核验指纹，未改动来源仓库内容。下一步若研究该来源，应先查未读内容或另一个具体媒体问题，不再把本图当作新增独立样本。
+
+
+同版超能力图复核：实看[超能力 A 版原图](https://github.com/62656456/ai-film-skills/blob/11ad3a8fa5fe18b00087cdfa08300bc7689dcb9b/docs/research/skill-overhaul/seven-genres/images/07-superpower-a.png)，941×1672 像素，SHA-256 `065e2738737b1ceaaa730a09b91f154d3a1b8d00df68b8451bec421e4549dcbc` 与清单一致。定向阅读共同故事、A 版第 3、4 镜及实际生图提示相应段落，明确要求隔空托举，局部描述同时使用向上撑起、托举等动作词。全图查看后重点对照第 1、3、4 格：第 1 格螺栓与掌心之间有可辨空隙；第 3 格右侧和第 4 格左侧，手指与板底轮廓相接，缺少可辨的隔空距离。
+
+本次结论限定为隔空关系没有清楚呈现。不能仅凭投影相接证明三维实体接触，也不能因整段已写“隔空”便把画面记为通过；更不能证明是哪一句措辞导致该结果。局部改写时可明确手掌与作用物的间隔、作用来源及取景，在相同任务约束下比较输出；不得顺手取消身体承重代价或改成实体托举。该建议尚未生成重测，不记为修复成功。与前一张打戏图共两张独立静态分镜板，仍不是两段生成视频，也不是三版整体排名。观察文件为被忽略的 `.local-evidence/open-film-storyboard-20261007/superpower-a-observation.json`。
+
+本地适配复核：上述隔空观察用于检查近身编排的能力例外，在既有规则中明确非接触方式与身体代价分别按设定处理；另用独立石盾受掌劲案例同时保留间隔、传力和守住入口，并给出不传回重量时不强加下沉的反向条件。没有复制来源救援情节，也未将这一文字修正计为生成效果改善。
+
+
+同版拉片案例续读：全文读取 `skills/ai-storyboard-director/references/fight-reference-case.md`。该文件引用[佳聪《这样的打斗不热血吗？》](https://www.douyin.com/video/7677917664052134121)，作者记录时长 49.04 秒、一般约每秒 2 帧和重点约每秒 6 帧抽样，明确未完成连续音画观看。本轮原作品链接无法通过浏览工具访问，未取得或观看原片；时长、采样密度与各时间点观察均只属于来源陈述，不能并入本项目已看媒体数量。
+
+案例的取舍较具体：按接触与全身位移需要变换观看尺度，身体高低变化由当前应答造成，拼接段落不强行解释为同一因果链，斜构图不证明连续滚转。这些与本项目已有镜头覆盖、支撑、切点及采样边界规则重合，故不追加运行规则，也不复制其动作顺序、特效或固定单变量要求。当前可复用结论是这份文件的证据表述方式；对原片效果与作者时间点判断的独立复核仍未完成。
+
+
+## 2026-10-07：LTX 文本检查器的误报与漏检
+
+来源 [AI-KSK/ltx-2-3-prompt-director](https://github.com/AI-KSK/ltx-2-3-prompt-director/tree/c9487b13178cf3c0c109ce55c49828df8909a7c0)，实取提交 `c9487b13178cf3c0c109ce55c49828df8909a7c0`。全文阅读 `scripts/ltx_prompt_lint.py` 和 `references/troubleshooting-and-qa.md`，另读 README 页面与仓库文件清单；未通读技能入口和其他参考。文件清单未见许可证、媒体样片或测试结果；QA 中的 A/B 章节是测试方法，不是已执行结果。未安装技能、调用生成服务或采纳其平台参数。
+
+检查器仅使用 Python 标准库，读取指定文本并输出启发式诊断，源码明确不预测生成质量。读完代码后在临时目录执行两个自编英文输入，固定 `--mode t2v --duration 10 --json`：
+
+| 自编输入条件 | 实际结果 | 说明 |
+|---|---|---|
+| 起初固定机位，随后开始环绕，最后人物停下；时序明确 | 退出码 1，`CAMERA_CONFLICT` | 全段关键词匹配未区分阶段，正常的摄影顺序被报冲突 |
+| 两人始终相隔十米，各持一米普通剑，不接近、不离手，却要求实体剑在中间碰撞 | 退出码 0，`CLEAN` | 未检查距离与可达范围；文字通过不能证明接触成立 |
+
+两例结果保存在被忽略的 `.local-evidence/ltx-lint-review-20261007/observations.json`，只证明该版本对这两个输入的行为。未测全套规则，不推算整体准确率，也不将合理告警一概忽略。QA 正文允许有意时序转换，与脚本的整段匹配能力有差别；其“只改一个变量”和简化动作的建议仍须服从本项目既有的有界联动与用户约束。
+
+本项目已有关键词按主体和阶段复核、结构校验不覆盖攻防语义的规定，因此本轮仅补充可复现证据，不引入该检查器作为质量门槛，不为消除误报删掉指定镜头或添加无意义关键词。
+
+
+### 两个反例的精确复现输入
+
+以下为本项目自编的实际输入，英文用于匹配该检查器的英文词表。将代码块各保存为标注的 UTF-8 文本文件，在上述固定提交的外部仓库目录运行；不需要生成模型。指纹按不含末尾换行的 UTF-8 输入计算。
+
+`camera_phases.txt`，SHA-256 `147c6fabae7bc04f778c6b4d13fcb7a789e536cb000fc550092436d28a961773`：
+
+```text
+At first, a static camera watches two adult swordsmen standing on a stone bridge. Then the camera begins to orbit them as they slowly circle each other. Finally they stop without attacking.
+```
+
+`unreachable_blade.txt`，SHA-256 `0f7b485369df694090dba9233eed0a2d8b7cd1ba3af98c4f98307e99b8b32a2b`：
+
+```text
+Two adult swordsmen stand ten meters apart. Neither moves closer, neither sword leaves its hand, and each ordinary sword is one meter long. Then their physical blades collide in the center between them. Finally they lower their swords. A locked camera records the whole event with quiet wind.
+```
+
+```powershell
+python -X utf8 -B scripts/ltx_prompt_lint.py camera_phases.txt --mode t2v --duration 10 --json
+python -X utf8 -B scripts/ltx_prompt_lint.py unreachable_blade.txt --mode t2v --duration 10 --json
+```
+
+分别检查每条命令的退出码，不能用第二条成功覆盖第一条失败。上述表格记录该固定版本的预期诊断；复现用于检查文本工具的边界，不用于接受或拒绝实际打斗成片。
+
+
+同版分段控制续读：定向阅读 `references/prompt-relay.md` 的接口依赖、语法、全局与局部职责、时间分配、转场、首帧及失败处理章节。来源明确其为社区工作流控制，不能把竖线、段名或相对权重当作所有接口都支持的语法。可借鉴的是先确认时间单位和条件职责；静态开场与结尾停留的比例建议不作通用要求。本地平台检查补充分段单位与实际切镜的区分，首帧相抵案例补充不因全局身份描述新增冻结开场的反例。未运行相关节点或验证其具体参数；条件边界、权重转换和实际镜头仍需目标接口与返回媒体确认。

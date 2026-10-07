@@ -10,6 +10,10 @@
 
 | 来源与已读版本 | 已覆盖内容与记录入口 | 后续关注点 |
 |---|---|---|
+| `AI-KSK/ltx-2-3-prompt-director` · `c9487b13178c` | [QA 与文本检查器的两个实执行反例](2026-10-06-validation-scope-and-evaluation.md) | 已复现阶段镜头误报与不可达接触漏检；未评估生成质量，不将 CLEAN 当作攻防通过 |
+| `62656456/ai-film-skills` · `11ad3a8fa5fe` | [打戏模块、拉片案例、三版分镜报告及两张实际图像核验](2026-10-06-validation-scope-and-evaluation.md) | 两张分镜图已对照输入；拉片原作品未取得，整批统计仍为作者报告，未做视频或版本优劣验证 |
+| `hypit-ai/hypit` · `7f730abf72fa` | [视频导演与参考关系](2026-10-07-reference-request-mapping.md) | 本轮只读两份方法页和根许可证，不将其包语法与模型选择当作通用接口 |
+| `jiayushi1-ux/script-to-shot-engine` · `e139226e935e` | [入口、动作与接续规则、素材协议、渲染器、徒手及一对多示例](2026-10-07-subjective-view-and-contact.md) | 采用视点与动作相容及群体人数检查；不采用固定镜头配额或焦距到景别的固定映射，尚无对应媒体验证 |
 | `irenerachel/fight-prompt-director` · `fee4387b4c53` | [入口与诊断](2026-10-06-combat-skills.md)、[目标策略复核](2026-10-07-objectives-and-tactics-audit.md) | 现有目标与因果方法已采用；同版固定配额与三方案要求无需反复评估 |
 | `snowfrost/skill-movie` · `69f6db670ecf` | [起始范围](2026-10-06-combat-skills.md)、[接触关系](2026-10-06-sustained-contact.md)、[地形](2026-10-06-terrain-and-traversal.md)、[双人抓握](2026-10-07-paired-body-control.md)；各文件有全文与定向阅读之别 | 先定位未读文件或新增方法；不能把大量参考文件视为多套独立实测，子目录许可仍按原记录处理 |
 | `nolanx-ai/nolanx.ai` · `595d86364377` | [动作镜头](2026-10-07-occlusion-and-return.md)、[模块化提示](2026-10-07-prompt-compression-scope.md)、[命中模板](2026-10-07-hit-marking-style.md)、[灯光](2026-10-07-magic-lighting.md) | 四份方法分别采用或舍弃；尚无本项目生成对照，不将模板参数当模型能力 |
@@ -28,6 +32,8 @@
 
 | 记录 | 查阅目的 |
 |---|---|
+| [参考素材与本次请求映射](2026-10-07-reference-request-mapping.md) | 重排或替换附件后同步文字引用，区分列表序号与稳定素材标识 |
+| [主观视点与接触连续性](2026-10-07-subjective-view-and-contact.md) | 区分眼位、过肩与外部视点，保留第一视角中的自身手和兵器，切换视点不重演接触 |
 | [错误动作控制与修复](2026-10-07-control-input-repair.md) | 纠正源动作时明确允许变化，避免同时要求错误控制完全保持 |
 | [人体运动与接触验收](2026-10-07-human-motion-evaluation.md) | 区分单人结构、运动稳定与双人接点，避免用平滑度或姿态置信度代替交互核验 |
 | [战斗流水线与密度取舍](2026-10-07-combat-pipeline-density.md) | 对照具体动作语法与固定密度质检，避免把镜长、姿态数和自评分配额当作质量证据 |
