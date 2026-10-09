@@ -1,0 +1,20 @@
+{
+  "name": "xianxia-combat-marketplace",
+  "interface": {
+    "displayName": "仙侠打斗插件"
+  },
+  "plugins": [
+    {
+      "name": "xianxia-combat",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

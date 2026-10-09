@@ -9,7 +9,7 @@ import unicodedata
 from urllib.parse import unquote
 
 
-LOCAL_ONLY_DIRECTORIES = {".git", ".local-evidence", "__pycache__"}
+LOCAL_ONLY_DIRECTORIES = {".git", ".local-evidence", "__pycache__", "dist"}
 
 
 def in_local_only_directory(relative_path):

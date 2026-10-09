@@ -1,0 +1,22 @@
+{
+  "name": "xianxia-combat",
+  "version": "0.1.0",
+  "description": "编写和改写仙侠战斗中文视频提示词，组织连续攻防、御剑、法阵与成片诊断。",
+  "author": {
+    "name": "Wilder1222"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "仙侠打斗",
+    "shortDescription": "中文战斗视频提示词，支持连续攻防、御剑追击、法阵与真人质感",
+    "longDescription": "将人物、招式、空间与情绪组织成可见的攻防过程，支持 CGI 与真人质感、动作参考适配和失败样片诊断。实际视频生成使用宿主已连接且用户授权的工具。",
+    "developerName": "Wilder1222",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": [
+      "使用 $xianxia-combat，编写 8 秒正常速度、三轮攻防、一镜到底的中文仙侠提示词。",
+      "使用 $xianxia-combat，将这个战斗场景改为真人质感，并保留原有招式与结局。",
+      "使用 $xianxia-combat，检查这段打斗的兵器连续性、攻防接续与节奏问题。"
+    ]
+  }
+}
